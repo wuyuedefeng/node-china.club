@@ -50,17 +50,16 @@
                 type: "GET",
                 url: "/goldPrice",
                 success: function(data){
+                    $('#showGoldPrice').html(data.price/100);
+                },
+                error: function(){
                     $('#showGoldPrice').html('--');
-                    setTimeout(function(){
-                        $('#showGoldPrice').html(data.price/100);
-                    },100);
-
                 }
             });
         }).trigger('click');
         setInterval(function(){
             $('#getGoldPrice').trigger('click');
-        }, 3000);
+        }, 500);
 
     })
 </script>
