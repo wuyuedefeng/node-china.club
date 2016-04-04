@@ -46,12 +46,15 @@
 <script>
     $(function(){
         $('#getGoldPrice').on('click',function(){
-            $('#showGoldPrice').html(0);
             $.ajax({
                 type: "GET",
                 url: "/goldPrice",
                 success: function(data){
-                    $('#showGoldPrice').html(data.price/100);
+                    $('#showGoldPrice').html('--');
+                    setTimeout(function(){
+                        $('#showGoldPrice').html(data.price/100);
+                    },100);
+
                 }
             });
         }).trigger('click');
