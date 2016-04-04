@@ -18,6 +18,7 @@
         <li id="nav-posts"><a href="/posts">文章列表</a></li>
         <li id="nav-starter"><a href="#">新手入门</a></li>
         <li id="nav-npms"><a href="#">Npms</a></li>
+        <li><a href="#" style="color: red" id="getGoldPrice">黄金价格: <span id="showGoldPrice" style="color: #660e7a; font-size: 30px"></span> </a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right hidden-xs" style="margin-right: 15px">
         <% if(!locals.user) { %>
@@ -39,5 +40,26 @@
         <% } %>
     </ul>
 </nav>
+
+
+<!-- 获取黄金价格 -->
+<script>
+    $(function(){
+        $('#getGoldPrice').on('click',function(){
+            $('#showGoldPrice').html(0);
+            $.ajax({
+                type: "GET",
+                url: "/goldPrice",
+                success: function(data){
+                    $('#showGoldPrice').html(data.price/100);
+                }
+            });
+        });
+        setInterval(function(){
+            $('#getGoldPrice').trigger('click');
+        }, 3000);
+
+    })
+</script>
 
 
