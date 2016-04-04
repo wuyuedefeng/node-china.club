@@ -87,13 +87,29 @@ router.get('/api/category/tags', function(req, res, next){
 // post 添加数据
 router.post('/api/new', function(req, res, next){
     var post = req.body;
-    console.log(req.body);
     post.userId = res.locals.user.mongo_id;
     Post.insertPost(post, function(err, post){
         if (err) return next(err);
         res.setHeader('Content-Type', 'text/plain');
         res.writeHead(200);
         res.end(post._id.toString());
+    });
+
+});
+// delete 删除数据
+router.delete('/api/delete/:id', function(req, res, next){
+    var _id = req.params.id;
+    if (!res.locals.user) return res.send({success: false, msg: '请先登录'});
+    Post.findById(_id, function (err, post) {
+        if (err) return next(err);
+        if (res.locals.user.mongo_id == post.author._id.toString()){
+            post.remove(function(err){
+                if (err) return res.send({success: false, msg: '操作失败'});
+                return res.send({success: true, msg: '删除成功'});
+            });
+        }else {
+            res.send({success: false, msg: '无权限'});
+        }
     });
 
 });

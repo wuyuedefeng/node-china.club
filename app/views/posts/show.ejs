@@ -42,6 +42,7 @@
             </div>
             <div class="panel-body">
                 <div class="text-center">
+                    <input id="post-id" type="text" value="<%= post.id %>" hidden>
                     <a href="/posts/edit/<%= post.id %>" class="btn btn-primary">编辑</a>
                     <button id="delete-post" class="btn btn-danger">删除</button>
                 </div>
@@ -60,5 +61,21 @@
 
         document.getElementById('markdown').innerHTML = marked(document.getElementById('markdownText').value);
         hljs.initHighlighting();
+
+        //  删除帖子
+        $('#delete-post').on('click', function(){
+            if(!confirm('确定要删除该帖子吗?')) return ;
+            $.ajax({
+                url: '/posts/api/delete/' + $('#post-id').val(),
+                type: 'DELETE',
+                success: function(data){
+                    location.href = '/posts';
+                },
+                error: function(data){
+                    console.log(data);
+                }
+
+            })
+        })
     });
 </script>
