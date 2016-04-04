@@ -1,15 +1,31 @@
 var express = require('express');
 var router = express.Router();
 var Post = require('../models/post');
+var Subject = require('../models/subject');
+var async = require('async');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  Post.findPosts(0, 0, 0, function(err, posts){
-    console.log(posts);
+  async.parallel({
+    subjects: function (callback) {
+      Subject.getAll(function (err, subjects) {
+        callback(err, subjects);
+      });
+    },
+    posts: function (callback) {
+      Post.findPosts(0, 0, 0, function(err, posts){
+        callback(err, posts);
+      });
+    }
+  }, function(err, obj){
+    if (err) return next(err);
+
     res.render('index', {
       title: 'nodeChina',
-      posts: posts || []
+      posts: obj.posts || [],
+      subjects: obj.subjects
     });
+
   });
 });
 
