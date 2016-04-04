@@ -54,7 +54,7 @@
                     $('#showGoldPrice').html(data.price/100);
                 }
             });
-        });
+        }).trigger('click');
         setInterval(function(){
             $('#getGoldPrice').trigger('click');
         }, 3000);
