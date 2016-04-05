@@ -15,6 +15,7 @@
                 <div style="width: 150px; display: inline-block; float: left">
                     <!--话题分类-->
                     <input id="temCategory" type="text" value="<%= post.category %>" hidden>
+                    <input id="temPostId" type="text" value="<%= post._id.toString() %>" hidden>
                     <select id="choiceCategory" class="select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 150px;" tabindex="-1" aria-hidden="true">
                         <option></option>
                         <% subjects.forEach(function(subject){ %>
@@ -143,13 +144,19 @@
             $(this).css('backgroundColor', 'gray');
             $.ajax({
                 type: "POST",
-                url: "/posts/api/new",
+                url: "/posts/api/edit/" + $('#temPostId').val(),
                 data: data,
                 success: function(data){
-                    console.log(data);
-                    location.href = '/posts/show/' + data;
+                    if(data.success){
+                        location.href = '/posts/show/' + $('#temPostId').val();
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+
                 },
                 error: function(){
+                    alert('网络错误,请重试');
                     $('#uploadPost').one('click', uploadPost);
                 }
             });

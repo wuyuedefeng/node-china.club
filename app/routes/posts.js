@@ -96,6 +96,19 @@ router.post('/api/new', function(req, res, next){
     });
 
 });
+
+// post 编辑数据
+router.post('/api/edit/:id', function(req, res, next){
+
+    var _id = req.params.id;
+    if (!res.locals.user) return res.send({success: false, msg: '请先登录'});
+    var post = req.body;
+    Post.update({_id: _id, author: res.locals.user.mongo_id},{title: post.title, category: post.category, tags: post["tags[]"], markdown: post.markdown}, function(err){
+        if (err) return next(err);
+        res.send({success: true, msg: '更新成功'});
+    });
+});
+
 // delete 删除数据
 router.delete('/api/delete/:id', function(req, res, next){
     var _id = req.params.id;
