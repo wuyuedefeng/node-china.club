@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), function(err, posts){
     res.render('index', {
       title: 'nodeChina',
-      posts: posts || [],
+      posts: posts || []
     });
   });
 
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/goldPrice', function(request, response, next){
-  var http = require('https');
+  var https = require('https');
   var options = {
     hostname: 'www.g-banker.com',
     path: '/info/price',
@@ -29,14 +29,19 @@ router.get('/goldPrice', function(request, response, next){
       'aw-tenant-code': 'q6T2GUtlXf/oOaiFwfiMFYWtMKveaH+19BCrxzRQvoc='
     }
   };
-  var req = http.request(options, function (res) {
+  var req = https.request(options, function (res) {
     var data = '';
     res.on('data', function (chunk) {
       data += chunk;
     });
     res.on('end', function(){
-      response.json(JSON.parse(data));
+      if (data){
+        response.json(JSON.parse(data));
+      }
     });
+  });
+  req.on( 'error' ,  function (e) {
+    return next(e);
   });
   req.end();
 });

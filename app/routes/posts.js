@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
             subjects: obj.subjects,
             searchTitle: req.query.searchTitle || '',
             searchCategory: req.query.category || '',
-            searchTags: req.query.tags.split(',') || []
+            searchTags: req.query.tags && req.query.tags.split(',') || []
         });
 
     });
