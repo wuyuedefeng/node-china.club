@@ -1,34 +1,51 @@
 <% include ../header.ejs %>
-
-<style>
-    .item{
-        height: 70px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        margin-left: 15px;
-        border-bottom: 1px solid #e1e1e1;
-    }
-    .item > .header{
-        display: inline-block;
-        float: left;
-        width: 50px;
-        height: 50px;
-        background-color: red;
-        margin-right: 5px;
-    }
-    .item > .content{
-        overflow: hidden;
-    }
-    .item > .content > .title{
-        font-size: 17px;
-    }
-    .item > .content > .detail{
-        margin-top: 5px;
-        font-size: 14px;
-    }
-</style>
+<link rel="stylesheet" href="/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="/select2-bootstrap-theme/dist/select2-bootstrap.min.css">
+<script src="/select2/dist/js/select2.min.js"></script>
 
 <div class="container">
+
+    <div class="row" style="margin-bottom: 20px">
+        <div style="padding: 20px 0; text-align: center; background-color: white">
+            <form action="/" role="form" class="container" id="searchForm">
+                <div class="form-group">
+                    <input id="searchInputTitle" class="form-control" type="text" placeholder="标题搜索" value="<%= searchTitle %>">
+                </div>
+                <!--话题标题group-->
+                <div class="form-group">
+                    <div style="width: 150px; display: inline-block; float: left">
+                        <!--话题分类-->
+                        <input id="temCategory" type="text" value="<%= searchCategory %>" hidden>
+                        <select id="choiceCategory"
+                                class="select2-container select2-container--bootstrap select2-hidden-accessible"
+                                style="width: 150px;" tabindex="-1" aria-hidden="true">
+                            <option></option>
+                            <% subjects.forEach(function(subject){ %>
+                            <optgroup label="<%= subject["group"] %>">
+                                <% subject["categories"].forEach(function(category){ %>
+                                <option value="<%= category["key"] %>"><%= category["value"] %></option>
+                                <% }) %>
+                            </optgroup>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <!--标题-->
+                    <div style="overflow: hidden">
+                        <input type="text" value="<%= searchTags && searchTags.join(',') %>" id="tmpTags" hidden>
+                        <select id="choiceTags"
+                                class="select2-container select2-container--bootstrap select2-hidden-accessible"
+                                style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group text-left">
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         <!--左侧帖子列表-->
         <div class="col-md-9">
@@ -47,16 +64,16 @@
                     <% include ../sumMondules/postListItem.ejs %>
                     <% }) %>
                     <!--<div class="post_outline_item">-->
-                        <!--<img src="" alt="" class="header">-->
-                        <!--<div class="content">-->
-                            <!--<a href="" class="title">node.js官方npm镜像</a>-->
-                            <!--<div class="detail">-->
-                                <!--<span>公告</span><span>•wangsen</span><span>•最后由senwang与22小时前回复</span>-->
-                            <!--</div>-->
-                            <!--<div class="post-badge">-->
-                                <!--<a href="#"><span class="badge">88</span></a>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                    <!--<img src="" alt="" class="header">-->
+                    <!--<div class="content">-->
+                    <!--<a href="" class="title">node.js官方npm镜像</a>-->
+                    <!--<div class="detail">-->
+                    <!--<span>公告</span><span>•wangsen</span><span>•最后由senwang与22小时前回复</span>-->
+                    <!--</div>-->
+                    <!--<div class="post-badge">-->
+                    <!--<a href="#"><span class="badge">88</span></a>-->
+                    <!--</div>-->
+                    <!--</div>-->
                     <!--</div>-->
                 </div>
             </div>
@@ -90,8 +107,13 @@
             <!--友情社区-->
             <ul class="list-group">
                 <li class="list-group-item active">感谢社区</li>
-                <li class="list-group-item"><a href="https://cnodejs.org/" target="_blank"><img style="width: 70%" src="/images/cnodejs.png" alt="nodejs"></a></li>
-                <li class="list-group-item"><a href="https://ruby-china.org/" target="_blank"><img style="width: 70%" src="/images/ruby-china.png" alt="ruby-china"></a></li>
+                <li class="list-group-item"><a href="https://cnodejs.org/" target="_blank"><img style="width: 70%"
+                                                                                                src="/images/cnodejs.png"
+                                                                                                alt="nodejs"></a></li>
+                <li class="list-group-item"><a href="https://ruby-china.org/" target="_blank"><img style="width: 70%"
+                                                                                                   src="/images/ruby-china.png"
+                                                                                                   alt="ruby-china"></a>
+                </li>
             </ul>
             <!--统计信息-->
             <ul class="list-group">
@@ -108,7 +130,84 @@
 <% include ../footer.ejs %>
 
 <script>
-    $(function(){
-        $('#nav-posts').addClass('active');
-    })
+    $('#nav-posts').addClass('active');
+    $( "#choiceCategory").val($('#temCategory').val());
+
+    $("#choiceCategory").select2({
+        theme: "bootstrap",
+        placeholder: "选择文章分类",
+        maximumSelectionSize: 6,
+        // 控制显示
+        templateResult: function (data) {
+            return data.text;
+        },
+        // 选取到某个值
+        templateSelection: function (data) {
+            return data.text;
+        }
+    });
+
+    $("#choiceTags").select2({
+        theme: "bootstrap",
+        placeholder: "文章包含的关键字",
+        maximumSelectionLength: 5, //最多能够选择的个数
+        tags: true, //是否可以自定义tag
+        multiple: true // 支持多选
+    });
+
+    var isInitialedTags = false;
+    $("#choiceCategory").on('change', function(){
+        $('#choiceTags').children().remove();
+        $('#choiceTags').val(null).trigger("change");
+        var categoryKey = $(this).val();
+        if (categoryKey){
+            $.ajax({
+                type: "GET",
+                url: "/posts/api/category/tags",
+                data: {category_key: categoryKey},
+                success: function(tags){
+                    var tmpTags = $("#tmpTags").val();
+                    if (tmpTags){
+                        tmpTags = tmpTags.split(',');
+                        tags = arrayUniq(tags.concat(tmpTags));
+                    }
+
+                    var str = '<option></option>'
+                    tags.forEach(function(tag){
+                        str += "<option value='" + tag +  "'>" + tag + "</option>"
+                    });
+                    $('#choiceTags').append(str);
+
+                    if (!isInitialedTags && tmpTags){
+                        isInitialedTags = true;
+                        $("#choiceTags").val(tmpTags).trigger('change');
+                    }
+                },
+                error: function(){
+                    return console.log('获取tags失败');
+                }
+            });
+        }
+    }).trigger('change');
+
+    $('#searchForm').submit(function (e) {
+        e.preventDefault();
+        var data = {
+            category: $("#choiceCategory").val(),
+            searchTitle: $('#searchInputTitle').val(),
+            tags: $("#choiceTags").val() || []
+        }
+        location.href = '/posts?searchTitle=' + data.searchTitle + '&category=' + data.category + '&tags=' + data.tags.join(',')
+    });
+
+    function arrayUniq(arr){
+        var obj = {};
+        arr.forEach(function(e){
+            obj[e] = 1;
+        });
+        var newArr = [];
+        for (var key in obj) newArr.push(key);
+        return newArr;
+    }
+
 </script>

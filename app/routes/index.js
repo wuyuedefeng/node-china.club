@@ -6,27 +6,13 @@ var async = require('async');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  async.parallel({
-    subjects: function (callback) {
-      Subject.getAll(function (err, subjects) {
-        callback(err, subjects);
-      });
-    },
-    posts: function (callback) {
-      Post.findPosts(0, 0, 0, function(err, posts){
-        callback(err, posts);
-      });
-    }
-  }, function(err, obj){
-    if (err) return next(err);
-
+  Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), function(err, posts){
     res.render('index', {
       title: 'nodeChina',
-      posts: obj.posts || [],
-      subjects: obj.subjects
+      posts: posts || [],
     });
-
   });
+
 });
 
 

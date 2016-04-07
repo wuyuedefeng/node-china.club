@@ -33,6 +33,20 @@ postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     })
 };
 
+postSchema.statics.searchPosts = function(title, category, tags, cb){
+    var searchObj = {
+        title: {$regex: title, $options:'i'},
+        category: category,
+        tags: {$in: tags}
+    };
+    if (!title) delete searchObj["title"];
+    if (!category) delete searchObj["category"];
+    if (!tags) delete searchObj["tags"];
+    this.find(searchObj, {voters: 0}, {skip: 0, limit: 15, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
+        cb(err, posts);
+    })
+};
+
 postSchema.statics.findById = function(_id, cb){
     this.findOne({_id: _id}).populate('author').exec(function(err, post){
         cb(err, post);

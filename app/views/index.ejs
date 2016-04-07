@@ -1,158 +1,72 @@
 <% include header.ejs %>
-<link rel="stylesheet" href="/select2/dist/css/select2.min.css">
-<link rel="stylesheet" href="/select2-bootstrap-theme/dist/select2-bootstrap.min.css">
-<script src="/select2/dist/js/select2.min.js"></script>
-
 <div class="container">
-  <div class="row" style="margin-bottom: 20px">
-    <div style="padding: 20px 0; text-align: center; background-color: white">
-      欢迎来到node-china.club
+    <div class="row" style="margin-bottom: 20px">
+        <div style="padding: 20px 0; text-align: center; background-color: white">
+            欢迎来到node-china.club
+        </div>
     </div>
-  </div>
-
-  <div class="row" style="margin-bottom: 20px">
-    <div style="padding: 20px 0; text-align: center; background-color: white">
-      <form action="/search" role="form" class="container">
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="标题搜索">
-        </div>
-        <!--话题标题group-->
-        <div class="form-group">
-          <div style="width: 150px; display: inline-block; float: left">
-            <!--话题分类-->
-            <select id="choiceCategory" class="select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 150px;" tabindex="-1" aria-hidden="true">
-              <option></option>
-              <% subjects.forEach(function(subject){ %>
-              <optgroup label="<%= subject["group"] %>">
-                <% subject["categories"].forEach(function(category){ %>
-                <option value="<%= category["key"] %>"><%= category["value"] %></option>
-                <% }) %>
-              </optgroup>
-              <% }) %>
-            </select>
-          </div>
-          <!--标题-->
-          <div style="overflow: hidden">
-            <select id="choiceTags" class="select2-container select2-container--bootstrap select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-              <option></option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group text-left">
-          <button class="btn btn-primary">搜索</button>
-        </div>
-      </form>
-    </div>
-  </div>
 
     <div class="row hidden-sm hidden-xs">
-      <div class="col-md-3" style="padding-left: 0; padding-right: 10px;">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            node社区内容体
-          </div>
-          <div class="panel-footer">
-            node社区
-          </div>
+        <div class="col-md-3" style="padding-left: 0; padding-right: 10px;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    node社区内容体
+                </div>
+                <div class="panel-footer">
+                    node社区
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3" style="padding: 0 10px;">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            技术文档内容体
-          </div>
-          <div class="panel-footer">
-            技术文档
-          </div>
+        <div class="col-md-3" style="padding: 0 10px;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    技术文档内容体
+                </div>
+                <div class="panel-footer">
+                    技术文档
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3" style="padding: 0 10px;">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            招聘与求职内容体
-          </div>
-          <div class="panel-footer">
-            招聘与求职
-          </div>
+        <div class="col-md-3" style="padding: 0 10px;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    招聘与求职内容体
+                </div>
+                <div class="panel-footer">
+                    招聘与求职
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3" style="padding-left: 10px; padding-right: 0;">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            精华文章内容体
-          </div>
-          <div class="panel-footer">
-            精华文章
-          </div>
+        <div class="col-md-3" style="padding-left: 10px; padding-right: 0;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    精华文章内容体
+                </div>
+                <div class="panel-footer">
+                    精华文章
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="row">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class="panel-title">社区精华帖</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">社区精华帖</div>
+            </div>
+            <div class="panel-body" style="padding-left: 0; padding-right: 0">
+                <% posts.forEach(function(post){ %>
+                <div class="col-md-6" style="padding-left: 0; padding-right: 0">
+                    <% include ./sumMondules/postListItem.ejs %>
+                </div>
+                <% }) %>
+            </div>
         </div>
-        <div class="panel-body" style="padding-left: 0; padding-right: 0">
-          <% posts.forEach(function(post){ %>
-          <div class="col-md-6" style="padding-left: 0; padding-right: 0">
-            <% include ./sumMondules/postListItem.ejs %>
-          </div>
-          <% }) %>
-        </div>
-      </div>
     </div>
 
 </div>
 
 
 <% include footer.ejs %>
-
-<script>
-  $( "#choiceCategory" ).select2( {
-    theme: "bootstrap",
-    placeholder: "选择文章分类",
-    maximumSelectionSize: 6,
-    // 控制显示
-    templateResult: function(data){
-      return data.text;
-    },
-    // 选取到某个值
-    templateSelection: function(data){
-      return data.text;
-    }
-  } );
-
-  $( "#choiceTags" ).select2( {
-    theme: "bootstrap",
-    placeholder: "文章包含的关键字",
-    maximumSelectionLength: 5, //最多能够选择的个数
-    tags: true, //是否可以自定义tag
-    multiple: true // 支持多选
-  });
-
-  $("#choiceCategory").on('change', function(){
-    var categoryKey = $(this).val();
-    $('#choiceTags').children().remove();
-    $('#choiceTags').val(null).trigger("change");
-    if (categoryKey){
-      $.ajax({
-        type: "GET",
-        url: "/posts/api/category/tags",
-        data: {category_key: categoryKey},
-        success: function(tags){
-          var str = '<option></option>'
-          tags.forEach(function(tag){
-            str += "<option value='" + tag +  "'>" + tag + "</option>"
-          });
-          $('#choiceTags').append(str);
-        },
-        error: function(){
-          return console.log('获取tags失败');
-        }
-      });
-    }
-  });
-</script>
 
 

@@ -5,13 +5,32 @@ var Post = require('../models/post');
 var async = require('async');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    Post.findPosts(0, 0, 0, function(err, posts){
-        console.log(posts);
-        res.render('posts', {
+
+    async.parallel({
+        subjects: function (callback) {
+            Subject.getAll(function (err, subjects) {
+                callback(err, subjects);
+            });
+        },
+        posts: function (callback) {
+            Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), function(err, posts){
+                callback(err, posts);
+            });
+        }
+    }, function(err, obj){
+        if (err) return next(err);
+
+        res.render('posts/index', {
             title: '文章列表',
-            posts: posts || []
-        })
+            posts: obj.posts || [],
+            subjects: obj.subjects,
+            searchTitle: req.query.searchTitle || '',
+            searchCategory: req.query.category || '',
+            searchTags: req.query.tags.split(',') || []
+        });
+
     });
+
 
 });
 
