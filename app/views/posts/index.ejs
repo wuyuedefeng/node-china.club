@@ -4,51 +4,52 @@
 <script src="/select2/dist/js/select2.min.js"></script>
 
 <div class="container">
-
-    <div class="row" style="margin-bottom: 20px">
-        <div style="padding: 20px 0; text-align: center; background-color: white">
-            <form action="/" role="form" class="container" id="searchForm">
-                <div class="form-group">
-                    <input id="searchInputTitle" class="form-control" type="text" placeholder="标题搜索" value="<%= searchTitle %>">
-                </div>
-                <!--话题标题group-->
-                <div class="form-group">
-                    <div style="width: 150px; display: inline-block; float: left">
-                        <!--话题分类-->
-                        <input id="temCategory" type="text" value="<%= searchCategory %>" hidden>
-                        <select id="choiceCategory"
-                                class="select2-container select2-container--bootstrap select2-hidden-accessible"
-                                style="width: 150px;" tabindex="-1" aria-hidden="true">
-                            <option></option>
-                            <% subjects.forEach(function(subject){ %>
-                            <optgroup label="<%= subject["group"] %>">
-                                <% subject["categories"].forEach(function(category){ %>
-                                <option value="<%= category["key"] %>"><%= category["value"] %></option>
-                                <% }) %>
-                            </optgroup>
-                            <% }) %>
-                        </select>
-                    </div>
-                    <!--标题-->
-                    <div style="overflow: hidden">
-                        <input type="text" value="<%= searchTags && searchTags.join(',') %>" id="tmpTags" hidden>
-                        <select id="choiceTags"
-                                class="select2-container select2-container--bootstrap select2-hidden-accessible"
-                                style="width: 100%;" tabindex="-1" aria-hidden="true">
-                            <option></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group text-left">
-                    <button class="btn btn-primary">搜索</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <div class="row">
-        <!--左侧帖子列表-->
+        <!--左侧-->
         <div class="col-md-9">
+            <!--搜索-->
+            <div class="panel panel-default">
+                <div class="panel-heading">搜索</div>
+                <div class="panel-body">
+                    <form action="/" role="form" id="searchForm">
+                        <div class="form-group">
+                            <input id="searchInputTitle" class="form-control" type="text" placeholder="标题搜索" value="<%= searchTitle %>">
+                        </div>
+                        <!--话题标题group-->
+                        <div class="form-group">
+                            <div style="width: 150px; display: inline-block; float: left">
+                                <!--话题分类-->
+                                <input id="temCategory" type="text" value="<%= searchCategory %>" hidden>
+                                <select id="choiceCategory"
+                                        class="select2-container select2-container--bootstrap select2-hidden-accessible"
+                                        style="width: 150px;" tabindex="-1" aria-hidden="true">
+                                    <option></option>
+                                    <% subjects.forEach(function(subject){ %>
+                                    <optgroup label="<%= subject["group"] %>">
+                                        <% subject["categories"].forEach(function(category){ %>
+                                        <option value="<%= category["key"] %>"><%= category["value"] %></option>
+                                        <% }) %>
+                                    </optgroup>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <!--标题-->
+                            <div style="overflow: hidden">
+                                <input type="text" value="<%= searchTags && searchTags.join(',') %>" id="tmpTags" hidden>
+                                <select id="choiceTags"
+                                        class="select2-container select2-container--bootstrap select2-hidden-accessible"
+                                        style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group text-left">
+                            <button class="btn btn-primary">搜索</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--帖子列表-->
             <div class="panel panel-default">
                 <div class="panel-heading" style="position: relative">
                     &nbsp;
