@@ -96,7 +96,7 @@ router.get('/authCallback', function(req, res, next){
             User.login(githubUser, function(err, user){
                 if (err) return res.end('认证过程出现错误,请重试');
                 req.session.uid = user.redis_id;
-                res.redirect('back');
+                res.redirect('/');
             });
         });
     })
