@@ -94,6 +94,17 @@ SubjectSchema.statics.initData = function(){
             tags: []
         }]
     }, {
+        group: '数据结构',
+        categories: [{
+            key: 'algorithm',
+            value: 'algorithm(算法)',
+            tags: []
+        }, {
+            key: 'designMode',
+            value: 'designMode(设计模式)',
+            tags: []
+        }]
+    }, {
         group: '服务器/运营',
         categories: [{
             key: 'nginx',
