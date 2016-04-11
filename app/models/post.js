@@ -42,7 +42,7 @@ postSchema.statics.searchPosts = function(title, category, tags, cb){
     if (!title) delete searchObj["title"];
     if (!category) delete searchObj["category"];
     if (!tags) delete searchObj["tags"];
-    this.find(searchObj, {voters: 0}, {skip: 0, limit: 15, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
+    this.find(searchObj, {voters: 0}, {skip: 0, limit: 20, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
         cb(err, posts);
     })
 };
