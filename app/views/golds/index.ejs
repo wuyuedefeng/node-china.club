@@ -1,0 +1,49 @@
+<% include ../header.ejs %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">黄金钱包</div>
+                <div class="panel-body">
+                    <div>
+                        当前金价: <span id="hjqbPrice" style="color: lightcoral; font-size: 24px"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">金生宝</div>
+                <div class="panel-body">
+                    <div>
+                        买入金价: <span id="jsbPriceBuy" style="color: lightcoral; font-size: 24px"></span>
+                    </div>
+                    <div>
+                        卖出金价: <span id="jsbPriceSell" style="color: lightblue; font-size: 18px"></span>
+                    </div>
+                    <div>
+                        更新时间: <span id="jsbPriceUpdated" style="color: lightblue; font-size: 18px"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+<script>
+    function getJSBNowGold(type, v) {
+        var _url = 'https://login.vip9999.com/';
+        var url = _url + "?s=api-getgold&callback=?";
+        $.getJSON(url, function(response) {
+            console.log(response);
+            $('#jsbPriceBuy').html(response.results.buy);
+            $('#jsbPriceSell').html(response.results.sell);
+            $('#jsbPriceUpdated').html(response.results.converted_updated);
+        }, "json")
+    }
+    getJSBNowGold();
+    setInterval(function(){
+        getJSBNowGold();
+    }, 800);
+</script>

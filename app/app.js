@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var github = require('./lib/github/github');
 var users = require('./routes/users');
+var golds = require('./routes/golds');
 var user = require('./lib/middleware/user');
 
 var app = express();
@@ -42,6 +43,7 @@ app.use(user);
 app.use('/', routes);
 app.use('/github', github);
 app.use('/users', users);
+app.use('/golds', golds);
 app.use('/posts', require('./routes/posts'));
 
 // catch 404 and forward to error handler
