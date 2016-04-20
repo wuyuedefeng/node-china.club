@@ -36,7 +36,6 @@
         var _url = 'https://login.vip9999.com/';
         var url = _url + "?s=api-getgold&callback=?";
         $.getJSON(url, function(response) {
-            console.log(response);
             $('#jsbPriceBuy').html(response.results.buy);
             $('#jsbPriceSell').html(response.results.sell);
             $('#jsbPriceUpdated').html(response.results.converted_updated);
