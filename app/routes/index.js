@@ -26,7 +26,8 @@ router.get('/goldPrice', function(request, response, next){
     headers: {
       'Connection' : 'keep-alive',
       'Content-Type': 'application/json;charset=UTF-8',
-      'aw-tenant-code': 'q6T2GUtlXf/oOaiFwfiMFYWtMKveaH+19BCrxzRQvoc='
+      'aw-tenant-code': 'q6T2GUtlXf/oOaiFwfiMFYWtMKveaH+19BCrxzRQvoc=',
+      'Access-Control-Allow-Origin': '*'
     }
   };
   var req = https.request(options, function (res) {
