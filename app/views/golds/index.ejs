@@ -9,6 +9,14 @@
                         当前金价: <span id="hjqbPrice" style="color: lightcoral; font-size: 24px"></span>
                     </div>
                 </div>
+                <div class="panel-footer">
+                    <div>
+                        低于: <input type="text" id="hjqbMin">提示
+                    </div>
+                    <div>
+                        高于: <input type="text" id="hjqbMax">提示
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-4 col-sm-6">
@@ -25,24 +33,110 @@
                         更新时间: <span id="jsbPriceUpdated" style="color: lightblue; font-size: 18px"></span>
                     </div>
                 </div>
+                <div class="panel-footer">
+                    <div>
+                        低于: <input type="text" id="jsbMin">提示
+                    </div>
+                    <div>
+                        高于: <input type="text" id="jsbMax">提示
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        </div>
     </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">配置</div>
+            <div class="panel-body">
+                <div>
+                    价格刷新频率: <input type="number" value="5000" id="freshTime">ms
+                    <button class="btn btn-primary btn-xs" onclick="$('#freshTime').val(1000)">快</button>
+                    <button class="btn btn-default btn-xs" onclick="$('#freshTime').val(5000)">正常</button>
+                    <button class="btn btn-warning btn-xs" onclick="$('#freshTime').val(11000)">慢</button>
+
+                </div>
+                <div>
+                    消息通知显示: <input type="number" value="3000" id="notificationShowTime">ms
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    function getJSBNowGold(type, v) {
-        var _url = 'https://login.vip9999.com/';
-        var url = _url + "?s=api-getgold&callback=?";
-        $.getJSON(url, function(response) {
-            $('#jsbPriceBuy').html(response.results.buy);
-            $('#jsbPriceSell').html(response.results.sell);
-            $('#jsbPriceUpdated').html(response.results.converted_updated);
-        }, "json")
-    }
-    getJSBNowGold();
-    setInterval(function(){
+    Notification.requestPermission();
+    $(function(){
+        var freshTime = parseInt($('#freshTime').val());
+        setInterval(function(){
+            getHJQBGold();
+            getJSBNowGold();
+        }, freshTime);
+
+        function getHJQBGold(){
+            $.ajax({
+                type: "GET",
+                url: "/goldPrice",
+                success: function(data){
+                    $('#hjqbPrice').html(data.price/100);
+                    checkoutNatifacation(data.price/100);
+                },
+                error: function(){
+                    $('#hjqbPrice').html('--');
+                }
+            });
+        }
+        function getJSBNowGold() {
+            var _url = 'https://login.vip9999.com/';
+            var url = _url + "?s=api-getgold&callback=?";
+            $.getJSON(url, function(response) {
+                $('#jsbPriceBuy').html(response.results.buy);
+                $('#jsbPriceSell').html(response.results.sell);
+                $('#jsbPriceUpdated').html(response.results.converted_updated);
+                checkoutNatifacation(0, response.results.buy-0);
+            }, "json")
+        }
         getJSBNowGold();
-    }, 900);
+
+
+        function checkoutNatifacation(hjqbPrice, jsbPrice){
+            var hjqbMin = parseFloat($('#hjqbMin').val());
+            var hjqbMax = parseFloat($('#hjqbMax').val());
+            var jsbMIn = parseFloat($('#jsbMin').val());
+            var jsbMax = parseFloat($('#jsbMax').val());
+
+            if(hjqbMin && hjqbMin > hjqbPrice){
+                notificationShow('黄金钱包', '价钱跌到' + hjqbPrice);
+            }
+            if (hjqbMax && hjqbMax < hjqbPrice){
+                notificationShow('黄金钱包', '价钱涨到' + hjqbPrice);
+            }
+            if(jsbMIn && jsbMIn > jsbPrice){
+                notificationShow('金生宝', '价钱跌到' + jsbPrice);
+            }
+            if (jsbMax && jsbMax < jsbPrice){
+                notificationShow('金生宝', '价钱涨到' + jsbPrice);
+            }
+        }
+
+        function notificationShow(title, message){
+            var notificationShowTime = parseInt($('#notificationShowTime').val()) || 3000;
+            var notification = new Notification(title,{body: message});
+            notification.onshow = function(){
+                tipSound();
+                setTimeout(function(){
+                    notification.close();
+                }, notificationShowTime);
+            };
+        }
+
+        function tipSound(url){
+            url = url || '/images/dada.mp3';
+            var audio = document.createElement('audio');
+            audio.src = url;
+            audio.play();
+        }
+    });
 </script>

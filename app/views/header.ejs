@@ -51,11 +51,9 @@
                 url: "/goldPrice",
                 success: function(data){
                     $('#showGoldPrice').html(data.price/100);
-                    $('#hjqbPrice').html(data.price/100);
                 },
                 error: function(){
                     $('#showGoldPrice').html('--');
-                    $('#hjqbPrice').html('--');
                 }
             });
         }).trigger('click');
