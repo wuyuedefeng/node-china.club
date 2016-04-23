@@ -66,7 +66,9 @@
 </div>
 
 <script>
-    Notification.requestPermission();
+    if (window.Notification){
+        Notification.requestPermission();
+    }
     $(function(){
         var freshTime = parseInt($('#freshTime').val());
         setInterval(function(){
@@ -103,6 +105,8 @@
 
 
         function checkoutNatifacation(type, price){
+            if (!window.Notification) return ;
+
             var hjqbMin = parseFloat($('#hjqbMin').val());
             var hjqbMax = parseFloat($('#hjqbMax').val());
             var jsbMIn = parseFloat($('#jsbMin').val());
