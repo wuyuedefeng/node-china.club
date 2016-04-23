@@ -110,6 +110,10 @@ SubjectSchema.statics.initData = function(){
             key: 'nginx',
             value: 'nginx',
             tags: []
+        }, {
+            key: 'docker',
+            value: 'docker',
+            tags: []
         }]
     }];
 
