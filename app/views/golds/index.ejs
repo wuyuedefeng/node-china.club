@@ -52,9 +52,9 @@
             <div class="panel-body">
                 <div>
                     价格刷新频率: <input type="number" value="5000" id="freshTime">ms
-                    <button class="btn btn-primary btn-xs" onclick="$('#freshTime').val(1000)">快</button>
-                    <button class="btn btn-default btn-xs" onclick="$('#freshTime').val(5000)">正常</button>
-                    <button class="btn btn-warning btn-xs" onclick="$('#freshTime').val(11000)">慢</button>
+                    <button class="btn btn-primary btn-xs" onclick="$('#freshTime').val(1000)">快(1000ms)</button>
+                    <button class="btn btn-default btn-xs" onclick="$('#freshTime').val(5000)">正常(5000ms)</button>
+                    <button class="btn btn-warning btn-xs" onclick="$('#freshTime').val(11000)">慢(11000ms)</button>
                 </div>
                 <div>
                     消息通知显示: <input type="number" value="3000" id="notificationShowTime">ms
@@ -70,17 +70,17 @@
     $(function(){
         var freshTime = parseInt($('#freshTime').val());
         setInterval(function(){
-            getHJQBGold();
+            getHJQBNowGold();
             getJSBNowGold();
         }, freshTime);
 
-        function getHJQBGold(){
+        function getHJQBNowGold(){
             $.ajax({
                 type: "GET",
                 url: "/goldPrice",
                 success: function(data){
                     $('#hjqbPrice').html(data.price/100);
-                    checkoutNatifacation(data.price/100);
+                    checkoutNatifacation('HJQB', data.price/100);
                 },
                 error: function(){
                     $('#hjqbPrice').html('--');
@@ -94,35 +94,40 @@
                 $('#jsbPriceBuy').html(response.results.buy);
                 $('#jsbPriceSell').html(response.results.sell);
                 $('#jsbPriceUpdated').html(response.results.converted_updated);
-                checkoutNatifacation(0, response.results.buy-0);
+                checkoutNatifacation('JSB', response.results.buy-0);
             }, "json")
         }
+
+        getHJQBNowGold();
         getJSBNowGold();
 
 
-        function checkoutNatifacation(hjqbPrice, jsbPrice){
+        function checkoutNatifacation(type, price){
             var hjqbMin = parseFloat($('#hjqbMin').val());
             var hjqbMax = parseFloat($('#hjqbMax').val());
             var jsbMIn = parseFloat($('#jsbMin').val());
             var jsbMax = parseFloat($('#jsbMax').val());
 
-            if(hjqbMin && hjqbMin > hjqbPrice){
-                notificationShow('黄金钱包', '价钱跌到' + hjqbPrice);
+            if(type == 'HJQB' && hjqbMin && hjqbMin > price){
+                notificationShow('/images/goDown.png', '黄金钱包', '价钱跌到' + price);
             }
-            if (hjqbMax && hjqbMax < hjqbPrice){
-                notificationShow('黄金钱包', '价钱涨到' + hjqbPrice);
+            if (type == 'HJQB' && hjqbMax && hjqbMax < price){
+                notificationShow('/images/goUp.png', '黄金钱包', '价钱涨到' + price);
             }
-            if(jsbMIn && jsbMIn > jsbPrice){
-                notificationShow('金生宝', '价钱跌到' + jsbPrice);
+            if(type == 'JSB' && jsbMIn && jsbMIn > price){
+                notificationShow('/images/goDown.png', '金生宝', '价钱跌到' + price);
             }
-            if (jsbMax && jsbMax < jsbPrice){
-                notificationShow('金生宝', '价钱涨到' + jsbPrice);
+            if (type == 'JSB' && jsbMax && jsbMax < price){
+                notificationShow('/images/goUp.png', '金生宝', '价钱涨到' + price);
             }
         }
 
-        function notificationShow(title, message){
+        function notificationShow(icon, title, message){
             var notificationShowTime = parseInt($('#notificationShowTime').val()) || 3000;
-            var notification = new Notification(title,{body: message});
+            var notification = new Notification(title,{
+                body: message,
+                icon: icon
+            });
             notification.onshow = function(){
                 tipSound();
                 setTimeout(function(){
