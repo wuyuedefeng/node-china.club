@@ -105,35 +105,38 @@
 
 
         function checkoutNatifacation(type, price){
-            if (!window.Notification) return ;
-
             var hjqbMin = parseFloat($('#hjqbMin').val());
             var hjqbMax = parseFloat($('#hjqbMax').val());
             var jsbMIn = parseFloat($('#jsbMin').val());
             var jsbMax = parseFloat($('#jsbMax').val());
 
             if(type == 'HJQB' && hjqbMin && hjqbMin > price){
-                notificationShow('/images/goDown.png', '黄金钱包', '价钱跌到' + price);
+                notificationShow('/images/goDown.png', '/images/sanxing.mp3', '黄金钱包', '价钱跌到' + price);
             }
             if (type == 'HJQB' && hjqbMax && hjqbMax < price){
-                notificationShow('/images/goUp.png', '黄金钱包', '价钱涨到' + price);
+                notificationShow('/images/goUp.png', '/images/dada.mp3', '黄金钱包', '价钱涨到' + price);
             }
             if(type == 'JSB' && jsbMIn && jsbMIn > price){
-                notificationShow('/images/goDown.png', '金生宝', '价钱跌到' + price);
+                notificationShow('/images/goDown.png', '/images/sanxing.mp3', '金生宝', '价钱跌到' + price);
             }
             if (type == 'JSB' && jsbMax && jsbMax < price){
-                notificationShow('/images/goUp.png', '金生宝', '价钱涨到' + price);
+                notificationShow('/images/goUp.png', '/images/dada.mp3', '金生宝', '价钱涨到' + price);
             }
         }
 
-        function notificationShow(icon, title, message){
+        function notificationShow(icon, tipAudioUrl, title, message){
+            if (!window.Notification){
+                tipSound(tipAudioUrl);
+                return ;
+            }
+
             var notificationShowTime = parseInt($('#notificationShowTime').val()) || 3000;
             var notification = new Notification(title,{
                 body: message,
                 icon: icon
             });
             notification.onshow = function(){
-                tipSound();
+                tipSound(tipAudioUrl);
                 setTimeout(function(){
                     notification.close();
                 }, notificationShowTime);

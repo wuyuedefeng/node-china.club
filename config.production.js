@@ -8,7 +8,7 @@ var config = {
     debug: false,
 
     // mongodb 配置
-    db: 'mongodb://localhost/nodeChina',
+    db: 'mongodb://admin:password@localhost/nodeChina',
 
     // redis 配置，默认是本地
     redis: {
