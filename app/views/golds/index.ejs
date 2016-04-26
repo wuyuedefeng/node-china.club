@@ -70,11 +70,15 @@
         Notification.requestPermission();
     }
     $(function(){
-        var freshTime = parseInt($('#freshTime').val());
-        setInterval(function(){
-            getHJQBNowGold();
-            getJSBNowGold();
-        }, freshTime);
+
+        (function runGetPriceInterval(){
+            var freshTime = parseInt($('#freshTime').val());
+            setTimeout(function(){
+                getHJQBNowGold();
+                getJSBNowGold();
+                runGetPriceInterval();
+            }, freshTime);
+        })();
 
         function getHJQBNowGold(){
             $.ajax({
