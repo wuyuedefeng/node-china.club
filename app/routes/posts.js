@@ -56,10 +56,15 @@ router.get('/new', function(req, res, next){
 router.get('/show/:id', function(req, res, next){
     var _id = req.params.id;
     Post.findById(_id, function(err, post){
-       res.render('posts/show', {
-           title: '话题详情',
-           post: post
-       })
+        if (err) return next(err);
+        post.browseCount = post.browseCount || 0;
+        Post.update({_id: _id},{$set:{browseCount: post.browseCount + 1}}, function(err){
+            if (err) return next(err);
+            res.render('posts/show', {
+                title: '话题详情',
+                post: post
+            });
+        });
     });
 });
 

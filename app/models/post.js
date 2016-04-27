@@ -7,13 +7,11 @@ var postSchema = new mongoose.Schema({
     category: String,
     tags: [String],
     markdown: String,
-    voters: [{type: String, unique: true, default: []}],
-    voterCount: {type: String, default: 0}
+    browseCount: {type: Number, default: 0}
 },{
     timestamps: true
 });
 postSchema.pre('save', function(next) {
-    this.voterCount = this.voters.length;
     next();
 });
 
@@ -28,7 +26,7 @@ postSchema.statics.insertPost = function(post, cb){
 postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     pageNumber = pageNumber || 1;
     limit = limit || 20;
-    this.find({}, {voters: 0}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
+    this.find({}, {}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
             cb(err, posts);
     })
 };
@@ -42,7 +40,7 @@ postSchema.statics.searchPosts = function(title, category, tags, cb){
     if (!title) delete searchObj["title"];
     if (!category) delete searchObj["category"];
     if (!tags) delete searchObj["tags"];
-    this.find(searchObj, {voters: 0}, {skip: 0, limit: 20, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
+    this.find(searchObj, {}, {skip: 0, limit: 20, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
         cb(err, posts);
     })
 };
