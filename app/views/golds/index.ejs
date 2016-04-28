@@ -43,6 +43,21 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">伦敦金</div>
+                <div class="panel-body">
+                    <div>
+                        金价: <span id="ldjPriceBuy" style="color: lightcoral; font-size: 24px"></span>
+                    </div>
+                    <div>
+                        更新时间: <span id="ldjPriceUpdated" style="color: lightblue; font-size: 18px"></span>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>
+        </div>
         <div class="col-md-4">
         </div>
     </div>
@@ -76,6 +91,7 @@
             setTimeout(function(){
                 getHJQBNowGold();
                 getJSBNowGold();
+                getLDJGoldPrice();
                 runGetPriceInterval();
             }, freshTime);
         })();
@@ -94,14 +110,28 @@
             });
         }
         function getJSBNowGold() {
-            var _url = 'https://login.vip9999.com/';
-            var url = _url + "?s=api-getgold&callback=?";
+            var url = 'https://login.vip9999.com/?s=api-getgold&callback=?';
             $.getJSON(url, function(response) {
                 $('#jsbPriceBuy').html(response.results.buy);
                 $('#jsbPriceSell').html(response.results.sell);
                 $('#jsbPriceUpdated').html(response.results.converted_updated);
                 checkoutNatifacation('JSB', response.results.buy-0);
             }, "json")
+        }
+        function getLDJGoldPrice(){
+            $.ajax({
+                type: "GET",
+                url: "/ldjPrice",
+                success: function(data){
+                    var datas = data.data.split('\r');
+                    $('#ldjPriceBuy').html(datas[0]);
+                    $('#ldjPriceUpdated').html(datas[1])
+                    console.log(data);
+                },
+                error: function(){
+
+                }
+            });
         }
 
         getHJQBNowGold();

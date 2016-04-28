@@ -47,4 +47,15 @@ router.get('/goldPrice', function(request, response, next){
   req.end();
 });
 
+router.get('/ldjPrice', function(req, response, next){
+  var superagent = require('superagent');
+  superagent.get('http://www.bulliondesk.com/fmdatacache/?sym=XAU&fld=B&zz=319897461801&ts=3-Dec-1970+12%3A50:38')
+      .end(function (err, sres) {
+        if (err) {
+          return next(err);
+        }
+        response.json({data: JSON.stringify(sres.text)});
+      });
+});
+
 module.exports = router;
