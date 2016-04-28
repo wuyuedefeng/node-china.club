@@ -124,9 +124,8 @@
                 url: "/ldjPrice",
                 success: function(data){
                     var datas = data.data.split('\r');
-                    $('#ldjPriceBuy').html(datas[0]);
-                    $('#ldjPriceUpdated').html(datas[1])
-                    console.log(data);
+                    $('#ldjPriceBuy').html(data.data.split(' ')[0].split('#')[1]);
+                    $('#ldjPriceUpdated').html(data.data.split('\\r')[1])
                 },
                 error: function(){
 
