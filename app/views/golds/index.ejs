@@ -1,141 +1,164 @@
 <% include ../header.ejs %>
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-sm-6">
+<script type="text/javascript" src="/angular/angular.min.js"></script>
+<div ng-app="starter">
+    <div class="container" ng-controller="GoldCtrl">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        黄金钱包
+                        <span ng-bind="(hjqbPrice/ldjPriceBuy).toFixed(5)"></span>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            当前金价: <span ng-bind="hjqbPrice" style="color: lightcoral; font-size: 24px"></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            低于: <input type="text" id="hjqbMin">提示
+                        </div>
+                        <div>
+                            高于: <input type="text" id="hjqbMax">提示
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">金生宝 <span ng-bind="(jsbPriceBuy/ldjPriceBuy).toFixed(5)"></span></div>
+                    <div class="panel-body">
+                        <div>
+                            买入金价: <span ng-bind="jsbPriceBuy" style="color: lightcoral; font-size: 24px"></span>
+                        </div>
+                        <div>
+                            卖出金价: <span ng-bind="jsbPriceSell" style="color: lightblue; font-size: 18px"></span>
+                        </div>
+                        <div>
+                            更新时间: <span ng-bind="jsbPriceUpdated" style="color: lightblue; font-size: 18px"></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div>
+                            低于: <input type="text" id="jsbMin">提示
+                        </div>
+                        <div>
+                            高于: <input type="text" id="jsbMax">提示
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">伦敦金</div>
+                    <div class="panel-body">
+                        <div>
+                            金价: <span ng-bind="ldjPriceBuy" style="color: lightcoral; font-size: 24px"></span>
+                        </div>
+                        <div>
+                            更新时间: <span ng-bind="ldjPriceUpdated" style="color: lightblue; font-size: 18px"></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+        <!--统计-->
+        <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">黄金钱包</div>
+                <div class="panel-heading">统计</div>
                 <div class="panel-body">
                     <div>
-                        当前金价: <span id="hjqbPrice" style="color: lightcoral; font-size: 24px"></span>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div>
-                        低于: <input type="text" id="hjqbMin">提示
+                        <input type="text" >
+                        黄金钱包:
                     </div>
                     <div>
-                        高于: <input type="text" id="hjqbMax">提示
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">金生宝</div>
-                <div class="panel-body">
-                    <div>
-                        买入金价: <span id="jsbPriceBuy" style="color: lightcoral; font-size: 24px"></span>
-                    </div>
-                    <div>
-                        卖出金价: <span id="jsbPriceSell" style="color: lightblue; font-size: 18px"></span>
-                    </div>
-                    <div>
-                        更新时间: <span id="jsbPriceUpdated" style="color: lightblue; font-size: 18px"></span>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div>
-                        低于: <input type="text" id="jsbMin">提示
-                    </div>
-                    <div>
-                        高于: <input type="text" id="jsbMax">提示
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">伦敦金</div>
-                <div class="panel-body">
-                    <div>
-                        金价: <span id="ldjPriceBuy" style="color: lightcoral; font-size: 24px"></span>
-                    </div>
-                    <div>
-                        更新时间: <span id="ldjPriceUpdated" style="color: lightblue; font-size: 18px"></span>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-        </div>
-    </div>
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-heading">配置</div>
-            <div class="panel-body">
-                <div>
-                    价格刷新频率: <input type="number" value="5000" id="freshTime">ms
-                    <button class="btn btn-primary btn-xs" onclick="$('#freshTime').val(1000)">快(1000ms)</button>
-                    <button class="btn btn-default btn-xs" onclick="$('#freshTime').val(5000)">正常(5000ms)</button>
-                    <button class="btn btn-warning btn-xs" onclick="$('#freshTime').val(11000)">慢(11000ms)</button>
-                </div>
-                <div>
-                    消息通知显示: <input type="number" value="3000" id="notificationShowTime">ms
-                </div>
-            </div>
-        </div>
-    </div>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">配置</div>
+                <div class="panel-body">
+                    <div>
+                        价格刷新频率: <input type="number" value="5000" ng-model="freshTime">ms
+                        <button class="btn btn-primary btn-xs" ng-click="freshTime=1000">快(1000ms)</button>
+                        <button class="btn btn-default btn-xs" ng-click="freshTime=5000">正常(5000ms)</button>
+                        <button class="btn btn-warning btn-xs" ng-click="freshTime=11000">慢(11000ms)</button>
+                    </div>
+                    <div>
+                        消息通知显示: <input type="number" value="3000" id="notificationShowTime">ms
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <script>
     if (window.Notification){
         Notification.requestPermission();
     }
-    $(function(){
-
-        (function runGetPriceInterval(){
-            var freshTime = parseInt($('#freshTime').val());
-            setTimeout(function(){
+    angular.module('starter', []).controller('GoldCtrl', ['$scope', '$timeout', function($scope, $timeout) {
+        $scope.freshTime = 0;
+        function runGetPriceInterval(){
+            var freshTime = $scope.freshTime;
+            $timeout(function(){
+                $scope.freshTime = $scope.freshTime || 5000;
                 getHJQBNowGold();
                 getJSBNowGold();
                 getLDJGoldPrice();
                 runGetPriceInterval();
             }, freshTime);
-        })();
+        }
+        runGetPriceInterval();
 
+        // 获取黄金钱包价格
         function getHJQBNowGold(){
             $.ajax({
                 type: "GET",
                 url: "/goldPrice",
                 success: function(data){
-                    $('#hjqbPrice').html(data.price/100);
-                    checkoutNatifacation('HJQB', data.price/100);
+                    var price = data.price/100;
+                    $scope.hjqbPrice = price;
+                    checkoutNatifacation('HJQB', price);
                 },
                 error: function(){
                     $('#hjqbPrice').html('--');
                 }
             });
         }
+        // 获取金生宝价格
         function getJSBNowGold() {
             var url = 'https://login.vip9999.com/?s=api-getgold&callback=?';
             $.getJSON(url, function(response) {
-                $('#jsbPriceBuy').html(response.results.buy);
-                $('#jsbPriceSell').html(response.results.sell);
-                $('#jsbPriceUpdated').html(response.results.converted_updated);
+                $scope.jsbPriceBuy = response.results.buy;
+                $scope.jsbPriceSell = response.results.sell;
+                $scope.jsbPriceUpdated = response.results.converted_updated;
                 checkoutNatifacation('JSB', response.results.buy-0);
             }, "json")
         }
+        //获得伦敦金价格
         function getLDJGoldPrice(){
             $.ajax({
                 type: "GET",
                 url: "/ldjPrice",
                 success: function(data){
-                    $('#ldjPriceBuy').html(data.data.split(' ')[0].split('#')[1]);
-                    $('#ldjPriceUpdated').html(data.data.split(' ')[2])
+                    $scope.ldjPriceBuy = data.data.split(' ')[0].split('#')[1];
+                    $scope.ldjPriceUpdated = data.data.split(' ')[2];
                 },
                 error: function(){
 
                 }
             });
         }
-
-        getHJQBNowGold();
-        getJSBNowGold();
-
-
+        // 消息通知
         function checkoutNatifacation(type, price){
             var hjqbMin = parseFloat($('#hjqbMin').val());
             var hjqbMax = parseFloat($('#hjqbMax').val());
@@ -155,7 +178,6 @@
                 notificationShow('/images/goUp.png', '/images/dada.mp3', '金生宝', '价钱涨到' + price);
             }
         }
-
         function notificationShow(icon, tipAudioUrl, title, message){
             if (!window.Notification){
                 tipSound(tipAudioUrl);
@@ -174,12 +196,11 @@
                 }, notificationShowTime);
             };
         }
-
         function tipSound(url){
             url = url || '/images/dada.mp3';
             var audio = document.createElement('audio');
             audio.src = url;
             audio.play();
         }
-    });
+    }]);
 </script>

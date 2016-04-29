@@ -6,7 +6,8 @@
     "marked": "^0.3.5",
     "select2-bootstrap-theme": "^0.1.0-beta.4",
     "select2": "^4.0.2",
-    "highlight": "^9.2.0"
+    "highlight": "^9.2.0",
+    "angular": "^1.5.5"
   },
   "devDependencies": {}
 }

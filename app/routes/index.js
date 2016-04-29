@@ -47,15 +47,26 @@ router.get('/goldPrice', function(request, response, next){
   req.end();
 });
 
-router.get('/ldjPrice', function(req, response, next){
-  var superagent = require('superagent');
-  superagent.get('http://www.bulliondesk.com/fmdatacache/?sym=XAU&fld=B&zz=319897461801&ts=3-Dec-1970+12%3A50:38')
-      .end(function (err, sres) {
-        if (err) {
-          return next(err);
-        }
-        response.json({data: JSON.stringify(sres.text)});
-      });
+router.get('/ldjPrice', function(request, response, next){
+  var http = require('http');
+  http.get('http://www.bulliondesk.com/fmdatacache/?sym=XAU&fld=B&zz=319897461801&ts=3-Dec-1970+12%3A50:38', function(res){
+    res.on("data", function(chunk) {
+      var data = JSON.stringify(chunk.toString());
+      response.json({data: data});
+    }).on('error', function(e) {
+      return next(e);
+    });
+  });
+
+
+  //var superagent = require('superagent');
+  //superagent.get('http://www.bulliondesk.com/fmdatacache/?sym=XAU&fld=B&zz=319897461801&ts=3-Dec-1970+12%3A50:38')
+  //    .end(function (err, sres) {
+  //      if (err) {
+  //        return next(err);
+  //      }
+  //      response.json({data: JSON.stringify(sres.text)});
+  //    });
 });
 
 module.exports = router;
