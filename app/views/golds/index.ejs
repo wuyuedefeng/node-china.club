@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         黄金钱包
-                        <span ng-bind="(hjqbPrice/ldjPriceBuy).toFixed(5)"></span>
+                        <span ng-bind="(hjqbPrice/ldjPriceBuy*1000).toFixed(3)"></span>
                     </div>
                     <div class="panel-body">
                         <div>
@@ -26,7 +26,7 @@
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading">金生宝 <span ng-bind="(jsbPriceBuy/ldjPriceBuy).toFixed(5)"></span></div>
+                    <div class="panel-heading">金生宝 <span ng-bind="(jsbPriceBuy/ldjPriceBuy*1000).toFixed(3)"></span></div>
                     <div class="panel-body">
                         <div>
                             买入金价: <span ng-bind="jsbPriceBuy" style="color: lightcoral; font-size: 24px"></span>
