@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "forever -w ./bin/www",
-    "test": "mocha"
+    "test": "mocha",
+    "deploy": "pm2 deploy ecosystem.json production"
   },
   "dependencies": {
     "async": "^2.0.0-rc.2",
