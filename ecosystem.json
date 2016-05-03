@@ -8,7 +8,7 @@
     // First application
     {
       name      : "APP",
-      script    : "app.js",
+      script    : "bin/www",
       env: {
         COMMON_VARIABLE: "true"
       },
