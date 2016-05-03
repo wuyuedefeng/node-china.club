@@ -15,13 +15,13 @@
       env_production : {
         NODE_ENV: "production"
       }
-    },
+    }
 
     // Second application
-    {
-      name      : "WEB",
-      script    : "web.js"
-    }
+//    {
+//      name      : "WEB",
+//      script    : "web.js"
+//    }
   ],
 
   /**
