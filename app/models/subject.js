@@ -64,6 +64,13 @@ SubjectSchema.statics.initData = function(){
             tags: []
         }]
     }, {
+        group: '桌面开发',
+        categories: [{
+            key: 'MAC',
+            value: 'mac',
+            tags: ['oc', 'swift', 'xcode']
+        }]
+    }, {
         group: '前端',
         categories: [{
             key: 'html',
