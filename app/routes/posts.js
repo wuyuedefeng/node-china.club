@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
             });
         },
         postInfo: function (callback) {
-            Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), req.query.page, function(err, posts){
+            Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), req.query.page || 1, function(err, posts){
                 callback(err, posts);
             });
         }
