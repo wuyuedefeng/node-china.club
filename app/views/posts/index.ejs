@@ -66,15 +66,13 @@
                     <% include ../sumMondules/postListItem.ejs %>
                     <% }) %>
 
-                    <%= nowPage %>
-                    <%= allCount %>
                     <nav>
                         <ul class="pager">
                             <% if (nowPage > 1){ %>
-                                <li><a id="previous" data-value="<%= nowPage - 1 %>" class="btn">Previous</a></li>
+                                <li><a id="previous" data-value="<%= nowPage - 1 %>" class="btn">上一页</a></li>
                             <% } %>
                             <% if (nowPage*20 <  allCount){ %>
-                                <li><a id="next" data-value="<%= nowPage + 1 %>" class="btn">Next</a></li>
+                                <li><a id="next" data-value="<%= nowPage + 1 %>" class="btn">下一页</a></li>
                             <% } %>
                         </ul>
                     </nav>
@@ -198,6 +196,7 @@
         var wantPage = $(this).attr('data-value');
         console.log(wantPage);
         $('#wantPage').val(wantPage);
+        $('#searchForm').submit();
     });
 
     $('#searchForm').submit(function (e) {
