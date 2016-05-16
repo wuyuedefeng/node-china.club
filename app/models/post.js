@@ -1,5 +1,6 @@
 var User = require('./user');
 var mongoose = require('mongoose');
+var async = require('async');
 var Schema   = mongoose.Schema;
 var postSchema = new mongoose.Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -31,7 +32,7 @@ postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     })
 };
 
-postSchema.statics.searchPosts = function(title, category, tags, cb){
+postSchema.statics.searchPosts = function(title, category, tags, page, cb){
     var searchObj = {
         title: {$regex: title, $options:'i'},
         category: category,
@@ -40,9 +41,25 @@ postSchema.statics.searchPosts = function(title, category, tags, cb){
     if (!title) delete searchObj["title"];
     if (!category) delete searchObj["category"];
     if (!tags) delete searchObj["tags"];
-    this.find(searchObj, {}, {skip: 0, limit: 20, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
-        cb(err, posts);
-    })
+    var that = this;
+    async.parallel({
+        posts: function (callback) {
+            that.find(searchObj, {}, {skip: (page -1)*20 , limit: 20, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
+                callback(err, posts);
+            })
+        },
+        allCount: function(callback){
+            that.count(searchObj, function(err, count){
+                callback(err, count);
+            });
+        }
+    }, function(err, obj){
+        if (err) return cb(err);
+        cb(err, obj);
+    });
+
+
+
 };
 
 postSchema.statics.findById = function(_id, cb){

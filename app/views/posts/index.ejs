@@ -46,6 +46,7 @@
                         <div class="form-group text-left">
                             <button class="btn btn-primary">搜索</button>
                         </div>
+                        <input type="text" name="wantPage" id="wantPage" value="1" hidden>
                     </form>
                 </div>
             </div>
@@ -64,18 +65,18 @@
                     <% posts.forEach(function(post){ %>
                     <% include ../sumMondules/postListItem.ejs %>
                     <% }) %>
-                    <!--<div class="post_outline_item">-->
-                    <!--<img src="" alt="" class="header">-->
-                    <!--<div class="content">-->
-                    <!--<a href="" class="title">node.js官方npm镜像</a>-->
-                    <!--<div class="detail">-->
-                    <!--<span>公告</span><span>•wangsen</span><span>•最后由senwang与22小时前回复</span>-->
-                    <!--</div>-->
-                    <!--<div class="post-badge">-->
-                    <!--<a href="#"><span class="badge">88</span></a>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
+
+                    <%= allCount %>
+                    <nav>
+                        <ul class="pager">
+                            <% if (nowPage > 1){ %>
+                                <li><a id="previous" data-value="<%= nowPage - 1 %>" class="btn">Previous</a></li>
+                            <% } %>
+                            <% if (nowPage*20 <  allCount){ %>
+                                <li><a id="next" data-value="<%= nowPage + 1 %>" class="btn">Next</a></li>
+                            <% } %>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -191,14 +192,22 @@
         }
     }).trigger('change');
 
+    $('#previous,#next').on('click', function(){
+        console.log('previous click');
+        var wantPage = $(this).attr('data-value');
+        console.log(wantPage);
+        $('#wantPage').val(wantPage);
+    });
+
     $('#searchForm').submit(function (e) {
         e.preventDefault();
         var data = {
             category: $("#choiceCategory").val(),
             searchTitle: $('#searchInputTitle').val(),
-            tags: $("#choiceTags").val() || []
+            tags: $("#choiceTags").val() || [],
+            page: $('#wantPage').val() || 1
         }
-        location.href = '/posts?searchTitle=' + data.searchTitle + '&category=' + data.category + '&tags=' + data.tags.join(',')
+        location.href = '/posts?searchTitle=' + data.searchTitle + '&category=' + data.category + '&tags=' + data.tags.join(',') + '&page=' + data.page
     });
 
     function arrayUniq(arr){

@@ -12,8 +12,8 @@ router.get('/', function(req, res, next) {
                 callback(err, subjects);
             });
         },
-        posts: function (callback) {
-            Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), function(err, posts){
+        postInfo: function (callback) {
+            Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), req.query.page, function(err, posts){
                 callback(err, posts);
             });
         }
@@ -22,7 +22,9 @@ router.get('/', function(req, res, next) {
 
         res.render('posts/index', {
             title: '文章列表',
-            posts: obj.posts || [],
+            posts: obj.postInfo.posts || [],
+            allCount: obj.postInfo.allCount,
+            nowPage: +req.query.page,
             subjects: obj.subjects,
             searchTitle: req.query.searchTitle || '',
             searchCategory: req.query.category || '',
