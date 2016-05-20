@@ -5,6 +5,7 @@
         <div class="detail">
             <span style="color: purple; font-size: 15px; font-weight: bold"><%= post.category + ' ' %></span>
             <span style="color: lightsalmon;"><%= post.tags && post.tags.join(', ') %></span>
+            <span style="color: #5e6e5e"><%= post.showHandleCreatedAt() %></span>
         </div>
         <!--<div class="post-badge">-->
             <!--<a href="#"><span class="badge"><%= post.voterCount %></span></a>-->

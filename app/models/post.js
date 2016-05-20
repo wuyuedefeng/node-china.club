@@ -1,6 +1,10 @@
 var User = require('./user');
 var mongoose = require('mongoose');
 var async = require('async');
+var moment = require('moment');
+moment.locale('zh-CN');
+
+
 var Schema   = mongoose.Schema;
 var postSchema = new mongoose.Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -66,6 +70,12 @@ postSchema.statics.findById = function(_id, cb){
     this.findOne({_id: _id}).populate('author').exec(function(err, post){
         cb(err, post);
     });
+};
+
+
+//  model 方法
+postSchema.methods.showHandleCreatedAt = function(){
+    return moment(this.createdAt).fromNow();
 };
 
 var postModel = mongoose.model('Post', postSchema);
