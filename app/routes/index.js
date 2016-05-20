@@ -6,12 +6,14 @@ var async = require('async');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), 1, function(err, postObj){
-    res.render('index', {
-      title: 'nodeChina',
-      posts: postObj.posts || []
-    });
-  });
+  res.redirectTo('/posts');
+
+  //Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), 1, function(err, postObj){
+  //  res.render('index', {
+  //    title: 'nodeChina',
+  //    posts: postObj.posts || []
+  //  });
+  //});
 
 });
 
