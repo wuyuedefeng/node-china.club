@@ -6,7 +6,7 @@ var async = require('async');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  res.redirectTo('/posts');
+  res.redirect('/posts');
 
   //Post.searchPosts(req.query.searchTitle, req.query.category, req.query.tags && req.query.tags.split(','), 1, function(err, postObj){
   //  res.render('index', {
