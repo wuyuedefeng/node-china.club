@@ -7,9 +7,9 @@ router.post('/api/new', function(req, res, next) {
     comment.author = res.locals.user.mongo_id;
     Comment.insertComment(comment, function(err, comment){
         if (err) return next(err);
-        res.setHeader('Content-Type', 'text/plain');
-        res.writeHead(200);
-        res.end(comment._id.toString());
+        //res.setHeader('Content-Type', 'text/plain');
+        //res.writeHead(200);
+        res.send({success: true, commentId: comment._id.toString()});
     });
 });
 

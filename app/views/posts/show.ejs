@@ -128,8 +128,16 @@
             hljs.initHighlighting.called = false;
             hljs.initHighlighting();
         });
+
+        var allowCommit = true;
         $('#comment-form').on('submit', function(e){
             e.preventDefault();
+            if (allowCommit){
+                allowCommit = false;
+            }else {
+                return ;
+            }
+
             var postId = $('#comment-post-id').val();
             var markdown = $('#comment-input').val();
             $.ajax({
@@ -140,10 +148,15 @@
                     markdown: markdown
                 },
                 success: function(data){
-                    console.log(data);
+                    if(!data.success){
+                        alert(data.msg);
+                        allowCommit = true;
+                        return ;
+                    }
                     location.reload();
                 },
                 error: function(){
+                    allowCommit = true;
                     alert('评价失败');
                 }
             });
