@@ -45,7 +45,7 @@ app.use('/github', github);
 app.use('/users', users);
 app.use('/golds', golds);
 app.use('/posts', require('./routes/posts'));
-
+app.use('/comments', require('./routes/comments'));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

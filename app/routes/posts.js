@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Subject = require('../models/subject');
 var Post = require('../models/post');
+var Comment = require('../models/comment');
 var async = require('async');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -58,17 +59,37 @@ router.get('/new', function(req, res, next){
 
 router.get('/show/:id', function(req, res, next){
     var _id = req.params.id;
-    Post.findById(_id, function(err, post){
-        if (err) return next(err);
-        post.browseCount = post.browseCount || 0;
-        Post.update({_id: _id},{$set:{browseCount: post.browseCount + 1}}, function(err){
-            if (err) return next(err);
-            res.render('posts/show', {
-                title: '话题详情',
-                post: post
+
+    async.parallel({
+        post: function (callback) {
+
+            Post.findById(_id, function(err, post){
+                if (err) return next(err);
+                post.browseCount = post.browseCount || 0;
+                Post.update({_id: _id},{$set:{browseCount: post.browseCount + 1}}, function(err){
+                    callback(err, post);
+                });
             });
+
+            Subject.getAll(function (err, subjects) {
+
+            });
+        },
+        comments: function (callback) {
+            Comment.findComments(_id, function(err, comments){
+                callback(err, comments);
+            });
+        }
+    }, function(err, obj){
+        if (err) return next(err);
+        res.render('posts/show', {
+            title: '话题详情',
+            post: obj.post,
+            comments: obj.comments
         });
     });
+
+
 });
 
 router.get('/edit/:id', function(req, res, next){

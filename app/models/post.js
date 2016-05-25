@@ -4,8 +4,7 @@ var async = require('async');
 var moment = require('moment');
 moment.locale('zh-CN');
 
-
-var Schema   = mongoose.Schema;
+var Schema = mongoose.Schema;
 var postSchema = new mongoose.Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     title: String,

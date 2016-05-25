@@ -17,12 +17,46 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div id="markdown">
-                    <textarea id="markdownText" hidden><%= post.markdown %></textarea>
+                <div class="markdown">
+                    <textarea class="markdownText" hidden><%= post.markdown %></textarea>
                 </div>
             </div>
         </div>
+        <!--显示评论-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                共有<%= comments.length %>条评论
+            </div>
+            <div class="panel-body">
+                <% comments.forEach(function(comment){ %>
+                <% include ../sumMondules/commentListItem.ejs %>
+                <% }) %>
+            </div>
+        </div>
+        <!--添加评论 -->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form" id="comment-form">
+                    <div class="col-md-12" style="padding-left: 0">
+                        <div class="col-md-6" style="padding-left: 0; overflow: hidden">
+                            <div class="form-group">
+                                <input type="text" value="<%= post._id %>" id="comment-post-id" hidden>
+                                <div class="controls">
+                                    <textarea class="form-control" name="markdown" rows="5" id="comment-input" placeholder="请输入评论内容"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="background-color: #eee">
+                            <div id="preview"></div>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="提交评论" class="btn btn-primary"/>
+                </form>
+            </div>
+        </div>
     </div>
+
     <!--右边栏-->
     <div class="hidden-sm hidden-xs col-md-3">
         <ul class="list-group">
@@ -56,6 +90,7 @@
         <% } %>
     </div>
 </div>
+
 <% include ../footer.ejs %>
 
 <link rel="stylesheet" href="/highlight/src/styles/qtcreator_dark.css">
@@ -64,7 +99,11 @@
     $(function(){
         $('#nav-posts').addClass('active');
 
-        document.getElementById('markdown').innerHTML = marked(document.getElementById('markdownText').value);
+        $('.markdown').each(function(){
+            var markdown = $(this).find('.markdownText')[0].value;
+            $(this).html(marked(markdown));
+        });
+
         hljs.initHighlighting();
 
         //  删除帖子
@@ -81,6 +120,34 @@
                 }
 
             })
-        })
+        });
+
+        // 评论
+        $('#comment-input').on('input', function(){
+            document.getElementById('preview').innerHTML = marked($(this).val());
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
+        });
+        $('#comment-form').on('submit', function(e){
+            e.preventDefault();
+            var postId = $('#comment-post-id').val();
+            var markdown = $('#comment-input').val();
+            $.ajax({
+                type: "POST",
+                url: "/comments/api/new",
+                data: {
+                    postId: postId,
+                    markdown: markdown
+                },
+                success: function(data){
+                    console.log(data);
+                    location.reload();
+                },
+                error: function(){
+                    alert('评价失败');
+                }
+            });
+        });
     });
+
 </script>
