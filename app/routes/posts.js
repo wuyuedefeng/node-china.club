@@ -61,6 +61,10 @@ router.get('/new', function(req, res, next){
 router.get('/show/:id', function(req, res, next){
     var _id = req.params.id;
 
+    if (req.query.notificationId){
+        Notification.updateUnreadToRead(req.query.notificationId, function(err){});
+    }
+
     async.parallel({
         post: function (callback) {
 
@@ -84,16 +88,12 @@ router.get('/show/:id', function(req, res, next){
     }, function(err, obj){
         if (err) return next(err);
 
-        if (req.query.notificationId){
-            Notification.updateUnreadToRead(req.query.notificationId, function(err){
-                if (err) return next(err);
-                res.render('posts/show', {
-                    title: '话题详情',
-                    post: obj.post,
-                    comments: obj.comments
-                });
-            });
-        }
+        if (err) return next(err);
+        res.render('posts/show', {
+            title: '话题详情',
+            post: obj.post,
+            comments: obj.comments
+        });
     });
 
 
