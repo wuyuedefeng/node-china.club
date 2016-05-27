@@ -5,7 +5,7 @@ var moment = require('moment');
 moment.locale('zh-CN');
 
 var Schema = mongoose.Schema;
-var postSchema = new mongoose.Schema({
+var PostSchema = new mongoose.Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     title: String,
     category: String,
@@ -15,19 +15,19 @@ var postSchema = new mongoose.Schema({
 },{
     timestamps: true
 });
-postSchema.pre('save', function(next) {
+PostSchema.pre('save', function(next) {
     next();
 });
 
 
-postSchema.statics.insertPost = function(post, cb){
-    var postEntity = new postModel({author: post.userId, title: post.title, category: post.category, tags: post["tags[]"], markdown: post.markdown});
+PostSchema.statics.insertPost = function(post, cb){
+    var postEntity = new PostModel({author: post.userId, title: post.title, category: post.category, tags: post["tags[]"], markdown: post.markdown});
     postEntity.save(function(err, data){
         return cb(err, data);
     });
 };
 
-postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
+PostSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     pageNumber = pageNumber || 1;
     limit = limit || 20;
     this.find({}, {}, {skip: limit*(pageNumber-1), limit: limit, sort:{ createdAt: -1}}).populate('author').exec(function(err, posts){
@@ -35,7 +35,7 @@ postSchema.statics.findPosts = function(pageNumber, limit, searchText, cb){
     })
 };
 
-postSchema.statics.searchPosts = function(title, category, tags, page, cb){
+PostSchema.statics.searchPosts = function(title, category, tags, page, cb){
     var searchObj = {
         title: {$regex: title, $options:'i'},
         category: category,
@@ -65,7 +65,7 @@ postSchema.statics.searchPosts = function(title, category, tags, page, cb){
 
 };
 
-postSchema.statics.findById = function(_id, cb){
+PostSchema.statics.findById = function(_id, cb){
     this.findOne({_id: _id}).populate('author').exec(function(err, post){
         cb(err, post);
     });
@@ -73,9 +73,9 @@ postSchema.statics.findById = function(_id, cb){
 
 
 //  model 方法
-postSchema.methods.showHandleCreatedAt = function(){
+PostSchema.methods.showHandleCreatedAt = function(){
     return moment(this.createdAt).fromNow();
 };
 
-var postModel = mongoose.model('Post', postSchema);
-module.exports = postModel;
+var PostModel = mongoose.model('Post', PostSchema);
+module.exports = PostModel;
