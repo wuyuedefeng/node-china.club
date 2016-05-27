@@ -3,6 +3,7 @@ var router = express.Router();
 var Subject = require('../models/subject');
 var Post = require('../models/post');
 var Comment = require('../models/comment');
+var Notification = require('../models/notification');
 var async = require('async');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -30,7 +31,7 @@ router.get('/', function(req, res, next) {
             subjects: obj.subjects,
             searchTitle: req.query.searchTitle || '',
             searchCategory: req.query.category || '',
-            searchTags: req.query.tags && req.query.tags.split(',') || []
+            searchTags: req.query.tags && req.query.tags.split(',') || [],
         });
 
     });
@@ -82,11 +83,17 @@ router.get('/show/:id', function(req, res, next){
         }
     }, function(err, obj){
         if (err) return next(err);
-        res.render('posts/show', {
-            title: '话题详情',
-            post: obj.post,
-            comments: obj.comments
-        });
+
+        if (req.query.notificationId){
+            Notification.updateUnreadToRead(req.query.notificationId, function(err){
+                if (err) return next(err);
+                res.render('posts/show', {
+                    title: '话题详情',
+                    post: obj.post,
+                    comments: obj.comments
+                });
+            });
+        }
     });
 
 

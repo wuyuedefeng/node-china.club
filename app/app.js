@@ -46,6 +46,7 @@ app.use('/users', users);
 app.use('/golds', golds);
 app.use('/posts', require('./routes/posts'));
 app.use('/comments', require('./routes/comments'));
+app.use('/notifications', require('./routes/notifications'));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

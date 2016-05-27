@@ -7,7 +7,7 @@
             <div class="panel-heading">
                 <div>
                     <div>
-                        <span style="font-size: 30px; font-weight: bold"><%= post.title %></span>
+                        <span style="font-size: 30px; font-weight: bold" id="post-title"><%= post.title %></span>
                     </div>
                     <div>
                         <span style="color: purple;"><%= post.category %></span>
@@ -41,6 +41,7 @@
                         <div class="col-md-6" style="padding-left: 0; overflow: hidden">
                             <div class="form-group">
                                 <input type="text" value="<%= post._id %>" id="comment-post-id" hidden>
+                                <input type="text" value="<%= post.author._id %>" id="post-author-id" hidden>
                                 <div class="controls">
                                     <textarea class="form-control" name="markdown" rows="5" id="comment-input" placeholder="请输入评论内容(支持markdown语法)"></textarea>
                                 </div>
@@ -140,12 +141,15 @@
 
             var postId = $('#comment-post-id').val();
             var markdown = $('#comment-input').val();
+            var postAuthorId = $('#post-author-id').val();
             $.ajax({
                 type: "POST",
                 url: "/comments/api/new",
                 data: {
                     postId: postId,
-                    markdown: markdown
+                    markdown: markdown,
+                    postAuthorId: postAuthorId,
+                    postTitle: $('#post-title').text()
                 },
                 success: function(data){
                     if(!data.success){
