@@ -73,9 +73,14 @@
             success: function(data){
                 if(data.notifictions){
                     $('#unread-notification').children('li').remove();
-                    data.notifictions.forEach(function(notification){
-                        $('#unread-notification').append('<li><a class="unread-item" href="/posts/show/' + notification.postId + '?notificationId=' + notification._id + '">' + notification.content + '</a></li>');
-                    });
+                    if (data.notifictions && data.notifictions.length > 0){
+                        data.notifictions.forEach(function(notification){
+                            $('#unread-notification').append('<li><a class="unread-item" href="/posts/show/' + notification.postId + '?notificationId=' + notification._id + '">' + notification.content + '</a></li>');
+                        });
+                    }else {
+                        $('#unread-notification').append('<li>无消息</li>');
+                    }
+
                 }
             },
             error: function(){
