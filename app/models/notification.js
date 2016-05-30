@@ -1,16 +1,17 @@
 var mongoose = require("mongoose");
 var Schema   = mongoose.Schema;
 var NotificationSchema = new mongoose.Schema({
-    author: { type: Schema.Types.ObjectId, ref: 'User' },
+    fromUser: { type: Schema.Types.ObjectId, ref: 'User' },
+    toUser: { type: Schema.Types.ObjectId, ref: 'User' },
     isRead: { type: Boolean, default: true },
-    postId: String,
+    post: { type: Schema.Types.ObjectId, ref: 'Post' },
     content: String
 },{
     timestamps: true
 });
 
 NotificationSchema.statics.insertNotification = function(notification, cb){
-    var notificationEntity = new NotificationModel({author: notification.userId, postId: notification.postId, isRead: false, content: notification.content});
+    var notificationEntity = new NotificationModel({fromUser: notification.fromUserId, toUser: notification.toUserId , post: notification.postId, isRead: false, content: notification.content});
     notificationEntity.save(function(err, data){
         return cb(err, data);
     });

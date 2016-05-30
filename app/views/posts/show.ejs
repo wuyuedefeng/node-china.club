@@ -139,16 +139,14 @@
                 return ;
             }
 
-            var postId = $('#comment-post-id').val();
             var markdown = $('#comment-input').val();
-            var postAuthorId = $('#post-author-id').val();
             $.ajax({
                 type: "POST",
                 url: "/comments/api/new",
                 data: {
-                    postId: postId,
+                    postAuthorId: $('#post-author-id').val(),
+                    postId: $('#comment-post-id').val(),
                     markdown: markdown,
-                    postAuthorId: postAuthorId,
                     postTitle: $('#post-title').text()
                 },
                 success: function(data){

@@ -76,7 +76,7 @@
                     $('#unread-notification').children('li').remove();
                     if (data.notifictions && data.notifictions.length > 0){
                         data.notifictions.forEach(function(notification){
-                            $('#unread-notification').append('<li><a class="unread-item" href="/posts/show/' + notification.postId + '?notificationId=' + notification._id + '">' + notification.content + '</a></li>');
+                            $('#unread-notification').append('<li><a class="unread-item" href="/posts/show/' + notification.post + '?notificationId=' + notification._id + '">' + notification.content + '</a></li>');
                             $('#unread-badge').text(data.notifictions.length);
                         });
                     }else {
