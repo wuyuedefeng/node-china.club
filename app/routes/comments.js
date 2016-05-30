@@ -19,7 +19,7 @@ router.post('/api/new', function(req, res, next) {
                 fromUserId: comment.author,
                 toUserId: req.body.toUserId,
                 postId: req.body.postId,
-                content: '文章[' + req.body.postTitle + ']收到回复'
+                content: '[' + req.body.postTitle + ']收到回复'
             };
             Notification.insertNotification(notification, function(err){
                 if (err) return next(err);
