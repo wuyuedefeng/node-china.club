@@ -14,17 +14,21 @@ router.post('/api/new', function(req, res, next) {
         if (err) return next(err);
         //res.setHeader('Content-Type', 'text/plain');
         //res.writeHead(200);
-        console.log(req.body);
-        var notification = {
-            fromUserId: comment.author,
-            toUserId: req.body.postAuthorId,
-            postId: req.body.postId,
-            content: '文章[' + req.body.postTitle + ']有新评论'
-        };
-        Notification.insertNotification(notification, function(err){
-            if (err) return next(err);
+        if (res.locals.user.mongo_id != req.body.toUserId){
+            var notification = {
+                fromUserId: comment.author,
+                toUserId: req.body.toUserId,
+                postId: req.body.postId,
+                content: '文章[' + req.body.postTitle + ']收到回复'
+            };
+            Notification.insertNotification(notification, function(err){
+                if (err) return next(err);
+                res.send({success: true, commentId: comment._id.toString()});
+            });
+        }else {
             res.send({success: true, commentId: comment._id.toString()});
-        });
+        }
+
     });
 });
 

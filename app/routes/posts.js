@@ -75,10 +75,6 @@ router.get('/show/:id', function(req, res, next){
                     callback(err, post);
                 });
             });
-
-            Subject.getAll(function (err, subjects) {
-
-            });
         },
         comments: function (callback) {
             Comment.findComments(_id, function(err, comments){

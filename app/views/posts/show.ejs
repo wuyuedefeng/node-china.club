@@ -41,7 +41,7 @@
                         <div class="col-md-6" style="padding-left: 0; overflow: hidden">
                             <div class="form-group">
                                 <input type="text" value="<%= post._id %>" id="comment-post-id" hidden>
-                                <input type="text" value="<%= post.author._id %>" id="post-author-id" hidden>
+                                <input type="text" value="<%= post.author._id %>" id="to-user-id" hidden>
                                 <div class="controls">
                                     <textarea class="form-control" name="markdown" rows="5" id="comment-input" placeholder="请输入评论内容(支持markdown语法)"></textarea>
                                 </div>
@@ -144,7 +144,7 @@
                 type: "POST",
                 url: "/comments/api/new",
                 data: {
-                    postAuthorId: $('#post-author-id').val(),
+                    toUserId: $('#to-user-id').val(),
                     postId: $('#comment-post-id').val(),
                     markdown: markdown,
                     postTitle: $('#post-title').text()

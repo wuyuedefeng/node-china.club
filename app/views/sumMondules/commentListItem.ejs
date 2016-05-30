@@ -5,6 +5,7 @@
         position: relative;
         border-bottom: 1px solid #eee;
         padding-left: 74px;
+        position: relative;
     }
     .avatar{
         position: absolute;
@@ -32,6 +33,9 @@
         text-overflow: ellipsis;
         word-wrap: break-word;
     }
+    .comment-btn{
+        position: absolute; top: 5px; right: 15px;
+    }
 </style>
 <div class="reply">
     <div class="avatar"><a href="/tangmonk"><img class="media-object avatar-48" src="<%= comment.author && comment.author.githubInfo  && comment.author.githubInfo.avatar_url %>" alt=""></a></div>
@@ -48,4 +52,23 @@
             </div>
         </div>
     </div>
+    <% if(locals.user && comment.author &&  locals.user.mongo_id != comment.author._id) { %>
+    <div class="comment-btn btn btn-link">
+        <input type="text" value="<%= comment.author.username %>" class="comment-author-username" hidden>
+        <input type="text" value="<%= comment.author._id %>" class="comment-author-id" hidden>
+        回复
+    </div>
+    <% } %>
 </div>
+
+<script>
+    $(function(){
+       $('.comment-btn').on('click', function(){
+           $(this).css('color', 'gray');
+           var username = $(this).find('.comment-author-username').val();
+           var userId = $(this).find('.comment-author-id').val();
+           $('#comment-input').val('###### `--- @' + username +  ' ---` \n').trigger('input');
+           $('#to-user-id').val(userId);
+       })
+    });
+</script>
