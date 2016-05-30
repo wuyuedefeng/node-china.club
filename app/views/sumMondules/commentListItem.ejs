@@ -69,6 +69,7 @@
            var userId = $(this).find('.comment-author-id').val();
            $('#comment-input').val('###### `--- @' + username +  ' ---` \n').trigger('input');
            $('#to-user-id').val(userId);
+           $('body').scrollTop($('#left-panel').height());
        })
     });
 </script>
