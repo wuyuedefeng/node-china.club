@@ -26,7 +26,7 @@ NotificationSchema.statics.updateUnreadToRead = function(_id, cb){
 
 
 NotificationSchema.statics.findUnreadNotifications = function(_id, cb){
-    this.find({author: _id, isRead: false}).populate('author').exec(function(err, notifications){
+    this.find({toUser: _id, isRead: false}).populate('fromUser').exec(function(err, notifications){
         cb(err, notifications);
     });
 };
