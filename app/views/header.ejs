@@ -27,6 +27,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 通知提醒
                 <b class="caret"></b>
+                <span class="badge badge-important" id="unread-badge"></span>
             </a>
             <ul class="dropdown-menu" id="unread-notification"></ul>
         </li>
@@ -76,6 +77,7 @@
                     if (data.notifictions && data.notifictions.length > 0){
                         data.notifictions.forEach(function(notification){
                             $('#unread-notification').append('<li><a class="unread-item" href="/posts/show/' + notification.postId + '?notificationId=' + notification._id + '">' + notification.content + '</a></li>');
+                            $('#unread-badge').text(data.notifictions.length);
                         });
                     }else {
                         $('#unread-notification').append('<li>无消息</li>');

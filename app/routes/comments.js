@@ -16,10 +16,11 @@ router.post('/api/new', function(req, res, next) {
             if (err) return next(err);
             //res.setHeader('Content-Type', 'text/plain');
             //res.writeHead(200);
+            console.log(req.body);
             var notification = {
-                author: req.body.postAuthorId,
+                userId: req.body.postAuthorId,
                 postId: req.body.postId,
-                content: '收到文章[' + req.body.postTitle + ']的新评论'
+                content: '文章[' + req.body.postTitle + ']有新评论'
             };
             Notification.insertNotification(notification, function(err){
                 if (err) return next(err);
