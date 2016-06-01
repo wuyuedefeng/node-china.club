@@ -18,6 +18,20 @@ router.get('/', function(req, res, next) {
 });
 
 
+// 上传文件
+var aliyun = require('../lib/aliyun/oss');
+router.post('/uploadFile', function(req, res, next){
+  aliyun.uploadFile(req.body, function(err, data){
+    if (err){
+      res.send({success: false, msg: err.message});
+    }else {
+      res.send({success: true, msg: '上传成功'});
+    }
+  });
+});
+
+
+
 router.get('/goldPrice', function(request, response, next){
   var https = require('https');
   var options = {

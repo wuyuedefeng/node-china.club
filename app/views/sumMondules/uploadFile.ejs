@@ -1,0 +1,81 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">图片上传</div>
+    </div>
+    <div class="panel-body">
+        <div class="text-center">
+            <input type="file" accept="image/*" id="upload-file"/>
+            <div id="file-url"></div>
+        </div>
+    </div>
+</div>
+<script src="/javascripts/spark-md5.min.js"></script>
+<script>
+    $(function(){
+        $('#upload-file').on('change', function(e){
+            var file = e.target.files && e.target.files[0];
+            var fileInfo = {};
+            var reader = new FileReader();
+            reader.onload = function(upload) {
+                fileInfo.base64 = upload.target.result;
+                calcMd5(file, function(md5){
+                    fileInfo.fileName = md5;
+                    $.ajax({
+                        type: "POST",
+                        url: "/uploadFile",
+                        data: fileInfo,
+                        success: function(data){
+                            console.log('1111');
+                            console.log(data);
+                        },
+                        error: function(err){
+                            console.log('2222');
+                            console.log(err);
+                        }
+                    });
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+
+
+        function calcMd5(file, finishDo, errorDo, processDo){
+            var that = this;
+            var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice,
+                    chunkSize = 2097152,                             // Read in chunks of 2MB
+                    chunks = Math.ceil(file.size / chunkSize),
+                    currentChunk = 0,
+                    spark = new SparkMD5.ArrayBuffer(),
+                    fileReader = new FileReader();
+
+            fileReader.onload = function (e) {
+                //console.log('read chunk nr', currentChunk + 1, 'of', chunks);
+                processDo && processDo(currentChunk + 1, chunks);
+                spark.append(e.target.result);                   // Append array buffer
+                currentChunk++;
+
+                if (currentChunk < chunks) {
+                    loadNext();
+                } else {
+                    finishDo && finishDo(spark.end());
+                    //console.log('finished loading');
+                    //console.info('computed hash', spark.end());  // Compute hash
+                }
+            };
+
+            fileReader.onerror = function () {
+                errorDo && errorDo('oops, something went wrong.(计算md5出错)');
+                console.warn('oops, something went wrong.');
+            };
+
+            function loadNext() {
+                var start = currentChunk * chunkSize,
+                        end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
+
+                fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
+            }
+
+            loadNext();
+        }
+    });
+</script>
