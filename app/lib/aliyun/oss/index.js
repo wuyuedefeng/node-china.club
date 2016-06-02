@@ -1,7 +1,7 @@
 var aliyun = {
     config: {
-        "accessKeyId": "******",
-        "secretAccessKey": "******",
+        "accessKeyId": "H51KL93Jr9kGDfEn",
+        "secretAccessKey": "ZNGXHi7DEjTh4DqvDr4cMF1JvBZqL8",
         // 根据你的 oss 实例所在地区选择填入
         // 杭州：http://oss-cn-hangzhou.aliyuncs.com
         // 北京：http://oss-cn-beijing.aliyuncs.com
@@ -14,7 +14,7 @@ var aliyun = {
         // 青岛：http://oss-cn-qingdao-internal.aliyuncs.com
         // 深圳：http://oss-cn-shenzhen-internal.aliyuncs.com
         // 香港：http://oss-cn-hongkong-internal.aliyuncs.com
-        endpoint: 'https://oss-cn-shanghai.aliyuncs.com',
+        endpoint: 'https://oss-cn-shanghai-interna.aliyuncs.com',
         // 这是 oss sdk 目前支持最新的 api 版本, 不需要修改
         apiVersion: '2013-10-15',
         bucket: 'node-china'
