@@ -1,7 +1,7 @@
 var aliyun = {
     config: {
-        "accessKeyId": "H51KL93Jr9kGDfEn",
-        "secretAccessKey": "ZNGXHi7DEjTh4DqvDr4cMF1JvBZqL8",
+        "accessKeyId": "******",
+        "secretAccessKey": "******",
         // 根据你的 oss 实例所在地区选择填入
         // 杭州：http://oss-cn-hangzhou.aliyuncs.com
         // 北京：http://oss-cn-beijing.aliyuncs.com
