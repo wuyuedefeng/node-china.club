@@ -140,6 +140,10 @@
             }
 
             var markdown = $('#comment-input').val();
+            if (!markdown){
+                alert('评论内容不能为空');
+                return ;
+            }
             $.ajax({
                 type: "POST",
                 url: "/comments/api/new",
