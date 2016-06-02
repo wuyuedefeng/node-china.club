@@ -121,6 +121,10 @@ SubjectSchema.statics.initData = function(){
             key: 'docker',
             value: 'docker',
             tags: []
+        }, {
+            key: 'shell',
+            value: 'shell',
+            tags: []
         }]
     }];
 

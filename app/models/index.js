@@ -15,8 +15,8 @@ mongoose.connect(config.db, function(err){
         process.exit(1);
     }else {
         console.info('link MongoDB success!!!');
-        //var Subject = require('./subject.js');
-        //console.log(Subject.initData());
+        var Subject = require('./subject.js');
+        console.log(Subject.initData());
 
     }
 });
