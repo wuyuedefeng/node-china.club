@@ -6,15 +6,16 @@
         <div class="text-center">
             <input type="file" accept="image/*" id="upload-file"/>
             <div id="file-url"></div>
+            <img id="img-preview" style="max-height: 80px">
         </div>
     </div>
 </div>
 <script src="/javascripts/spark-md5.min.js"></script>
 <script>
     $(function(){
+        var fileInfo = {};
         $('#upload-file').on('change', function(e){
             var file = e.target.files && e.target.files[0];
-            var fileInfo = {};
             var reader = new FileReader();
             reader.onload = function(upload) {
                 fileInfo.base64 = upload.target.result;
@@ -25,11 +26,11 @@
                         url: "/uploadFile",
                         data: fileInfo,
                         success: function(data){
-                            console.log('1111');
-                            console.log(data);
+                            $('#file-url').text('http://img.itrydo.com/' + fileInfo.fileName);
+                            $('#img-preview').attr('src', 'http://img.itrydo.com/' + fileInfo.fileName);
                         },
                         error: function(err){
-                            console.log('2222');
+                            alert('图片上传失败');
                             console.log(err);
                         }
                     });
