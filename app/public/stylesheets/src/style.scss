@@ -9,9 +9,9 @@ nav.c-header{
 }
 
 .post_outline_item{
-  height: 70px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  height: 60px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   margin-left: 15px;
   border-bottom: 1px solid #e1e1e1;
 
@@ -32,17 +32,17 @@ nav.c-header{
   }
 
   > .content {
+    margin-top: 5px;
+
     > .post-badge{
       position: absolute; right: 15px;top: 0; line-height: 50px;
     }
     > .title{
-      margin-top: 4px;
-      font-size: 20px;
-      line-height: 20px;
+      font-size: 18px;
+      line-height: 18px;
     }
     > .detail{
-      margin-top: 3px;
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 }
