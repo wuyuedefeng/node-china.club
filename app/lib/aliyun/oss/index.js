@@ -14,7 +14,7 @@ var aliyun = {
         // 青岛：http://oss-cn-qingdao-internal.aliyuncs.com
         // 深圳：http://oss-cn-shenzhen-internal.aliyuncs.com
         // 香港：http://oss-cn-hongkong-internal.aliyuncs.com
-        endpoint: 'https://oss-cn-shanghai-interna.aliyuncs.com',
+        endpoint: 'https://oss-cn-shanghai.aliyuncs.com',
         // 这是 oss sdk 目前支持最新的 api 版本, 不需要修改
         apiVersion: '2013-10-15',
         bucket: 'node-china'
@@ -53,7 +53,6 @@ aliyun.uploadFile = function(fileInfo, cb){
     function (err, data) {
         if (err) {
             cb(err);
-
         }else {
             cb(null, data);
         }
