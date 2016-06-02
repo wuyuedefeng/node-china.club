@@ -19,6 +19,14 @@ PostSchema.pre('save', function(next) {
     next();
 });
 
+PostSchema.index({createdAt: -1});
+PostSchema.index({title: -1});
+PostSchema.index({category: -1});
+PostSchema.index({tags: -1});
+PostSchema.index({title: -1, category: -1});
+PostSchema.index({category: -1, tags: -1});
+PostSchema.index({title: -1, category: -1, tags: -1});
+
 
 PostSchema.statics.insertPost = function(post, cb){
     var postEntity = new PostModel({author: post.userId, title: post.title, category: post.category, tags: post["tags[]"], markdown: post.markdown});
