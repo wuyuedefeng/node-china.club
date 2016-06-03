@@ -86,7 +86,7 @@ router.get('/show/:id', function(req, res, next){
 
         if (err) return next(err);
         res.render('posts/show', {
-            title: '话题详情',
+            title: obj.post.title,
             post: obj.post,
             comments: obj.comments
         });
