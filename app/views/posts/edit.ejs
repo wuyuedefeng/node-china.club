@@ -134,7 +134,7 @@
             }
         }).trigger('change');
 
-        $('#uploadPost').one('click', function uploadPost(){
+        $('#uploadPost').on('click', function uploadPost(){
             var data = {
                 category: $("#choiceCategory").val(),
                 title: $('#title-input').val(),
