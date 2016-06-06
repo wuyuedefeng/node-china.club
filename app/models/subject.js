@@ -125,6 +125,10 @@ SubjectSchema.statics.initData = function(){
             key: 'shell',
             value: 'shell',
             tags: []
+        }, {
+            key: 'git',
+            value: 'git',
+            tags: []
         }]
     }];
 
