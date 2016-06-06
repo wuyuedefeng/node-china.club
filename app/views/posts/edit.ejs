@@ -134,17 +134,29 @@
             }
         }).trigger('change');
 
-        $('#uploadPost').on('click', function uploadPost(){
+        $('#uploadPost').one('click', function uploadPost(){
             var data = {
                 category: $("#choiceCategory").val(),
                 title: $('#title-input').val(),
                 tags: $("#choiceTags").val(),
                 markdown:  $('#text-input').val()
             }
-            if (!data.category) return alert('话题类型不能为空');
-            else if (!data.title) return alert('标题不能为空');
-            else if (!data.tags || !data.tags.length) return alert('关键字(tags)不能为空');
-            else if (!data.markdown) return alert('内容题不能为空');
+            if (!data.category) {
+                $('#uploadPost').one('click', uploadPost);
+                return alert('话题类型不能为空')
+            }
+            else if (!data.title) {
+                $('#uploadPost').one('click', uploadPost);
+                return alert('标题不能为空');
+            }
+            else if (!data.tags || !data.tags.length) {
+                $('#uploadPost').one('click', uploadPost);
+                return alert('关键字(tags)不能为空');
+            }
+            else if (!data.markdown) {
+                $('#uploadPost').one('click', uploadPost);
+                return alert('内容题不能为空');
+            }
             $(this).css('backgroundColor', 'gray');
             $.ajax({
                 type: "POST",
