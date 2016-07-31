@@ -73,6 +73,11 @@
             document.getElementById('preview').innerHTML = marked($(this).val());
             hljs.initHighlighting.called = false;
             hljs.initHighlighting();
+
+            var previewHeight = $('#preview').height();
+            previewHeight = previewHeight > 40 ? previewHeight : 40;
+            $('#text-input').height(previewHeight);
+
         }).trigger('input');
 
         $( "#choiceCategory").val($('#temCategory').val());
