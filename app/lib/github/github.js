@@ -94,7 +94,7 @@ router.get('/authCallback', function(req, res, next){
         get_userInfo(access_token, function(err, githubUser){
             if (err) throw err;
             User.login(githubUser, function(err, user){
-                if (err) return res.end('认证过程出现错误,请重试');
+                if (err) return res.end('认证过程出现错误,请重试', err);
                 req.session.uid = user.redis_id;
                 res.redirect('/');
             });
